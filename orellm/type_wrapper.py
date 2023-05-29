@@ -29,6 +29,23 @@ REGEX_TYPES = {
     float: r"(\d+|\d*\.\d+(?!\d))",
 }
 
+TYPE_DESCRIPTIONS  = {
+    int: "an integer",
+    str: "a string",
+    bool: "a boolean",
+    float: "a float",
+}
+
+
+def description(type_):
+    if isinstance(type_, Class):
+        return type_.cls.__name__
+
+    try:
+        return TYPE_DESCRIPTIONS[type_]
+    except KeyError:
+        return str(type_)
+
 
 class Class(Type):
     def __init__(self, cls):
@@ -61,3 +78,20 @@ class Class(Type):
 
     def __call__(self, kwargs):
         return self.cls(**kwargs)
+
+    @property
+    def description(self):
+        return (
+                f"A {self.cls.__name__} is a dictionary with a key 'path' and value '{self.path}' "
+                + f"and a key 'kwargs'\n"
+                + "The kwargs are:\n"
+                + "\n".join(
+            f"  - {kwarg}: {description(type_)}" for kwarg, type_ in self.kwargs.items()
+        )
+        )
+
+    def __repr__(self):
+        return f"Class({self.cls.__name__})"
+
+    def __str__(self):
+        return self.description
