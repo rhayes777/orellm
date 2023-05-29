@@ -1,4 +1,22 @@
-class Class:
+import json
+from abc import ABC, abstractmethod
+
+
+class Type(ABC):
+    @property
+    @abstractmethod
+    def regex(self):
+        pass
+
+    @abstractmethod
+    def __call__(self, kwargs):
+        pass
+
+    def from_json(self, response):
+        return self(json.loads(response)["kwargs"])
+
+
+class Class(Type):
     def __init__(self, cls):
         self.cls = cls
 
