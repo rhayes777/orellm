@@ -2,14 +2,14 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from orellm import complete_object
 from orellm.type_wrapper import Class
-from orellm.example_types import Simple
+from orellm.example_types import Types
 
-cls = Class(Simple)
+cls = Class(Types)
 
 model = AutoModelForCausalLM.from_pretrained("gpt2")
 tokenizer = AutoTokenizer.from_pretrained("gpt2")
 
-prompt = "Give me a Simple with argument 1.0"
+prompt = "Give me a Types"
 
 output = complete_object(
     tokenizer=tokenizer,

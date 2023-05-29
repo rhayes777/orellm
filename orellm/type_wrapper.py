@@ -24,7 +24,7 @@ class Type(ABC):
 
 REGEX_TYPES = {
     int: r"(\d+)",
-    str: r"\"(.*)\"",
+    str: r'\"([^"]*)\"',
     bool: r"(true|false)",
     float: r"(\d+|\d*\.\d+(?!\d))",
 }

@@ -25,4 +25,4 @@ def test_simple_regex(cls):
 def test_other_types():
     types = Class(Types)
 
-    assert types.regex == '\\{\\"type\\":\\s*\\"orellm\\.example_types\\.Types\\",\\s*\\"kwargs\\":\\s*\\{\\"int_argument\\":\\s*(\\d+),\\s*\\"string_argument\\":\\s*\\"(.*)\\",\\s*\\"boolean_argument\\":\\s*(true|false),\\s*\\"float_argument\\":\\s*(\\d+|\\d*\\.\\d+(?!\\d))\\}\\}'
+    assert types.regex == r'\{\"type\":\s*\"orellm\.example_types\.Types\",\s*\"kwargs\":\s*\{\"int_argument\":\s*(\d+),\s*\"string_argument\":\s*\"([^"]*)\",\s*\"boolean_argument\":\s*(true|false),\s*\"float_argument\":\s*(\d+|\d*\.\d+(?!\d))\}\}'

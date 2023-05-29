@@ -23,3 +23,16 @@ class Types:
         self.string_argument = string_argument
         self.boolean_argument = boolean_argument
         self.float_argument = float_argument
+
+    def __eq__(self, other):
+        if not isinstance(other, Types):
+            return False
+        return (
+                self.int_argument == other.int_argument
+                and self.string_argument == other.string_argument
+                and self.boolean_argument == other.boolean_argument
+                and self.float_argument == other.float_argument
+        )
+
+    def __repr__(self):
+        return f"Types({self.int_argument}, {self.string_argument}, {self.boolean_argument}, {self.float_argument})"
