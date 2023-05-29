@@ -6,3 +6,6 @@ class Simple:
         if not isinstance(other, Simple):
             return False
         return self.argument == other.argument
+
+    def __repr__(self):
+        return f"Simple({self.argument})"

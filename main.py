@@ -1,17 +1,26 @@
+import json
+
 import regex
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from rellm import complete_re
+from orellm.type_wrapper import Class
+from orellm.example_types import Simple
+
+cls = Class(Simple)
 
 model = AutoModelForCausalLM.from_pretrained("gpt2")
 tokenizer = AutoTokenizer.from_pretrained("gpt2")
 
-prompt = "ReLLM, the best way to get structured data out of LLMs, is an acronym for "
-pattern = regex.compile(r'Re[a-z]+ L[a-z]+ L[a-z]+ M[a-z]+')
-output = complete_re(tokenizer=tokenizer, 
-                     model=model, 
+prompt = "Give me a Simple with argument 1.0"
+pattern = regex.compile(cls.regex)
+output = complete_re(tokenizer=tokenizer,
+                     model=model,
                      prompt=prompt,
                      pattern=pattern,
                      do_sample=True,
                      max_new_tokens=80)
 print(output)
+instance = cls(json.loads(output)["kwargs"])
+
+print(instance)
