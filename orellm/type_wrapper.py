@@ -1,5 +1,6 @@
 import json
 from abc import ABC, abstractmethod
+from inspect import isclass
 
 
 class Type(ABC):
@@ -14,6 +15,19 @@ class Type(ABC):
 
     def from_json(self, response):
         return self(json.loads(response)["kwargs"])
+
+    def __new__(cls, type_, **kwargs):
+        if isclass(type_):
+            return object.__new__(Class)
+        raise TypeError(f"Type {type_} is not supported")
+
+
+REGEX_TYPES = {
+    int: r"(\d+)",
+    str: r"\"(.*)\"",
+    bool: r"(true|false)",
+    float: r"(\d+|\d*\.\d+(?!\d))",
+}
 
 
 class Class(Type):
@@ -33,8 +47,8 @@ class Class(Type):
         }
 
     def kwarg_regex(self, kwarg):
-        float_regex = r"(\d+|\d*\.\d+(?!\d))"
-        return rf"\"{kwarg}\":\s*{float_regex}"
+        type_regex = REGEX_TYPES[self.kwargs[kwarg]]
+        return rf"\"{kwarg}\":\s*{type_regex}"
 
     @property
     def kwargs_regex(self):
