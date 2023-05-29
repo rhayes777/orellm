@@ -17,9 +17,12 @@ class Type(ABC):
         return self(json.loads(response)["kwargs"])
 
     def __new__(cls, type_, **kwargs):
+        if type_ in REGEX_TYPES:
+            return type_
+
         if isclass(type_):
             return object.__new__(Class)
-        raise TypeError(f"Type {type_} is not supported")
+        return type_
 
 
 REGEX_TYPES = {
@@ -29,7 +32,7 @@ REGEX_TYPES = {
     float: r"(\d+|\d*\.\d+(?!\d))",
 }
 
-TYPE_DESCRIPTIONS  = {
+TYPE_DESCRIPTIONS = {
     int: "an integer",
     str: "a string",
     bool: "a boolean",
@@ -50,21 +53,22 @@ def description(type_):
 class Class(Type):
     def __init__(self, cls):
         self.cls = cls
+        self.kwargs = {
+            name: Type(type_)
+            for name, type_ in self.cls.__init__.__annotations__.items()
+            if name != "return"
+        }
 
     @property
     def path(self):
         return f"{self.cls.__module__}.{self.cls.__name__}"
 
-    @property
-    def kwargs(self):
-        return {
-            name: type_
-            for name, type_ in self.cls.__init__.__annotations__.items()
-            if name != "return"
-        }
-
     def kwarg_regex(self, kwarg):
-        type_regex = REGEX_TYPES[self.kwargs[kwarg]]
+        value = self.kwargs[kwarg]
+        if isinstance(value, Type):
+            type_regex = value.regex
+        else:
+            type_regex = REGEX_TYPES[self.kwargs[kwarg]]
         return rf"\"{kwarg}\":\s*{type_regex}"
 
     @property
@@ -82,7 +86,7 @@ class Class(Type):
     @property
     def description(self):
         return (
-                f"A {self.cls.__name__} is a dictionary with a key 'path' and value '{self.path}' "
+                f"A {self.cls.__name__} is a dictionary with a key 'type' and value '{self.path}' "
                 + f"and a key 'kwargs'\n"
                 + "The kwargs are:\n"
                 + "\n".join(

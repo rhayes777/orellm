@@ -36,3 +36,16 @@ class Types:
 
     def __repr__(self):
         return f"Types({self.int_argument}, {self.string_argument}, {self.boolean_argument}, {self.float_argument})"
+
+
+class Nested:
+    def __init__(self, simple: Simple):
+        self.simple = simple
+
+    def __eq__(self, other):
+        if not isinstance(other, Nested):
+            return False
+        return self.simple == other.simple
+
+    def __repr__(self):
+        return f"Nested({self.simple})"
