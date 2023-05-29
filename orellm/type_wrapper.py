@@ -26,3 +26,6 @@ class Class:
     @property
     def regex(self):
         return r"\{\"type\":\s*\"" + self.path.replace(".", "\.") + r"\",\s*\"kwargs\":\s*" + self.kwargs_regex + r"\}"
+
+    def __call__(self, kwargs):
+        return self.cls(**kwargs)
