@@ -1,7 +1,7 @@
 import pytest
 
 from orellm.example_types import Simple, Nested
-from orellm.type_wrapper import Class
+from orellm.class_ import Class
 
 
 @pytest.fixture(name="cls")

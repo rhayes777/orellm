@@ -4,7 +4,7 @@ from regex import regex
 from rellm import complete_re
 from transformers import PreTrainedTokenizer, PreTrainedModel
 
-from orellm.type_wrapper import Type
+from orellm.type_ import Type
 
 
 def complete_object(
