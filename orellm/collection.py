@@ -30,7 +30,7 @@ class Collection(BuiltInType):
         return f"a {self.type_.__name__} of {self.child_type.simple_description}"
 
     def from_json(self, response):
-        return self(map(self.child_type, json.loads(response)))
+        return self(map(self.child_type._from_json, json.loads(response)))
 
 
 class List(Collection):

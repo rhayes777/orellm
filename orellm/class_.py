@@ -10,6 +10,9 @@ class Class(Type):
             if name != "return"
         }
 
+    def _from_json(self, response):
+        return self(["kwargs"])
+
     def recursive_children(self):
         children = [self]
         for type_ in self.kwargs.values():

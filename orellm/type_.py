@@ -14,7 +14,11 @@ class Type(ABC):
         pass
 
     def from_json(self, response):
-        return self(json.loads(response)["kwargs"])
+        return self.from_json(json.loads(response))
+
+    @abstractmethod
+    def _from_json(self, response):
+        pass
 
     def __new__(cls, type_, **kwargs):
         from .built_in_type import Int, Float, Bool, Str
