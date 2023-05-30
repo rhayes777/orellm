@@ -121,11 +121,8 @@ class Class(Type):
         return f"{self.cls.__module__}.{self.cls.__name__}"
 
     def kwarg_regex(self, kwarg):
-        value = self.kwargs[kwarg]
-        if isinstance(value, Type):
-            type_regex = value.regex
-        else:
-            type_regex = REGEX_TYPES[self.kwargs[kwarg]]
+        type_regex = self.kwargs[kwarg].regex
+
         return rf"\"{kwarg}\":\s*{type_regex}"
 
     @property
