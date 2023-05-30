@@ -18,7 +18,7 @@ class Type(ABC):
 
     def __new__(cls, type_, **kwargs):
         if type_ in REGEX_TYPES:
-            return type_
+            return object.__new__(REGEX_TYPES[type_])
 
         if isclass(type_):
             return object.__new__(Class)
@@ -29,29 +29,75 @@ class Type(ABC):
         pass
 
 
+class Int(Type):
+    @property
+    def simple_description(self):
+        return "an integer"
+
+    @property
+    def regex(self):
+        return r"(\d+)"
+
+    def from_json(self, response):
+        return int(response)
+
+    def __call__(self, arg):
+        return int(arg)
+
+    def recursive_children(self):
+        return [self]
+
+
+class BuilltInType(Type, ABC):
+    def from_json(self, response):
+        return self(response)
+
+    def __init__(self, type_):
+        self.type_ = type_
+
+    def __call__(self, arg):
+        return self.type_(arg)
+
+    def recursive_children(self):
+        return []
+
+
+class Str(BuilltInType):
+    @property
+    def simple_description(self):
+        return "a string"
+
+    @property
+    def regex(self):
+        return r'\"([^"]*)\"'
+
+
+class Bool(BuilltInType):
+    @property
+    def simple_description(self):
+        return "a boolean"
+
+    @property
+    def regex(self):
+        return r"(true|false)"
+
+
+class Float(BuilltInType):
+    @property
+    def simple_description(self):
+        return "a float"
+
+    @property
+    def regex(self):
+        return r"(\d+|\d*\.\d+(?!\d))"
+
+
 REGEX_TYPES = {
-    int: r"(\d+)",
-    str: r'\"([^"]*)\"',
-    bool: r"(true|false)",
-    float: r"(\d+|\d*\.\d+(?!\d))",
+    int: Int,
+    str: Str,
+    bool: Bool,
+    float: Float,
 }
-
-TYPE_DESCRIPTIONS = {
-    int: "an integer",
-    str: "a string",
-    bool: "a boolean",
-    float: "a float",
-}
-
-
-def description(type_):
-    if isinstance(type_, Class):
-        return type_.cls.__name__
-
-    try:
-        return TYPE_DESCRIPTIONS[type_]
-    except KeyError:
-        return str(type_)
 
 
 class Class(Type):
@@ -105,9 +151,13 @@ class Class(Type):
                 + f"and a key 'kwargs'\n"
                 + "The kwargs are:\n"
                 + "\n".join(
-            f"  - {kwarg}: {description(type_)}" for kwarg, type_ in self.kwargs.items()
+            f"  - {kwarg}: {type_.simple_description}" for kwarg, type_ in self.kwargs.items()
         )
         )
+
+    @property
+    def simple_description(self):
+        return f"A {self.cls.__name__}"
 
     def __repr__(self):
         return f"Class({self.cls.__name__})"
