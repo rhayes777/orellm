@@ -39,10 +39,6 @@ class Class(Type):
         return self.cls(**kwargs)
 
     @property
-    def description(self):
-        return "\n\n".join(child.self_description for child in self.recursive_children())
-
-    @property
     def self_description(self):
         return (
                 f"A {self.cls.__name__} is a dictionary with a key 'type' and value '{self.path}' "
@@ -55,7 +51,7 @@ class Class(Type):
 
     @property
     def simple_description(self):
-        return f"A {self.cls.__name__}"
+        return f"{self.cls.__name__}"
 
     def __repr__(self):
         return f"Class({self.cls.__name__})"

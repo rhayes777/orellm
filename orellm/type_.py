@@ -18,6 +18,7 @@ class Type(ABC):
 
     def __new__(cls, type_, **kwargs):
         from .built_in_type import Int, Float, Bool, Str
+        from .list_ import List
         from .class_ import Class
 
         type_map = {
@@ -25,6 +26,7 @@ class Type(ABC):
             float: Float,
             bool: Bool,
             str: Str,
+            list: List
         }
 
         try:
@@ -37,4 +39,18 @@ class Type(ABC):
 
     @abstractmethod
     def recursive_children(self):
+        pass
+
+    @property
+    @abstractmethod
+    def simple_description(self):
+        pass
+
+    @property
+    def description(self):
+        return "\n\n".join(child.self_description for child in self.recursive_children())
+
+    @property
+    @abstractmethod
+    def self_description(self):
         pass

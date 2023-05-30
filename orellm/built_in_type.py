@@ -2,7 +2,7 @@ from abc import ABC
 from .type_ import Type
 
 
-class BuilltInType(Type, ABC):
+class BuiltInType(Type, ABC):
     def from_json(self, response):
         return self(response)
 
@@ -15,8 +15,12 @@ class BuilltInType(Type, ABC):
     def recursive_children(self):
         return []
 
+    @property
+    def self_description(self):
+        return f"{self.type_.__name__}"
 
-class Str(BuilltInType):
+
+class Str(BuiltInType):
     @property
     def simple_description(self):
         return "a string"
@@ -26,7 +30,7 @@ class Str(BuilltInType):
         return r'\"([^"]*)\"'
 
 
-class Bool(BuilltInType):
+class Bool(BuiltInType):
     @property
     def simple_description(self):
         return "a boolean"
@@ -36,7 +40,7 @@ class Bool(BuilltInType):
         return r"(true|false)"
 
 
-class Float(BuilltInType):
+class Float(BuiltInType):
     @property
     def simple_description(self):
         return "a float"
@@ -46,7 +50,7 @@ class Float(BuilltInType):
         return r"(\d+|\d*\.\d+(?!\d))"
 
 
-class Int(BuilltInType):
+class Int(BuiltInType):
     @property
     def simple_description(self):
         return "an integer"
