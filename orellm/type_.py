@@ -18,7 +18,7 @@ class Type(ABC):
 
     def __new__(cls, type_, **kwargs):
         from .built_in_type import Int, Float, Bool, Str
-        from .list_ import List
+        from .collection import List
         from .class_ import Class
 
         type_map = {

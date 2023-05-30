@@ -1,10 +1,13 @@
 import json
 
 from .built_in_type import BuiltInType
+from .type_ import Type
 
 
 class Collection(BuiltInType):
     def __init__(self, child_type, type_):
+        if not isinstance(child_type, Type):
+            child_type = Type(child_type)
         self.child_type = child_type
         super().__init__(type_)
 

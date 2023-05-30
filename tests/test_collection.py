@@ -1,4 +1,5 @@
-from orellm.list_ import List
+from orellm.collection import List
+from orellm.example_types import Simple
 
 import pytest
 
@@ -23,3 +24,8 @@ def test_list_description(ls):
 A Simple is a dictionary with a key 'type' and value 'orellm.example_types.Simple' and a key 'kwargs'
 The kwargs are:
   - argument: a float"""
+
+
+def test_implicit_casting():
+    ls = List(Simple)
+    assert ls.child_type.cls is Simple

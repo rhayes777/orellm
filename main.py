@@ -1,10 +1,11 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from orellm import complete_object
-from orellm.type_wrapper import Class
+from orellm.class_ import Class
 from orellm.example_types import Types
+from orellm.collection import List
 
-cls = Class(Types)
+cls = List(Types)
 
 model = AutoModelForCausalLM.from_pretrained("gpt2")
 tokenizer = AutoTokenizer.from_pretrained("gpt2")
