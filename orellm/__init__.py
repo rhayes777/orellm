@@ -17,11 +17,13 @@ def complete_object(
     if not isinstance(type_, Type):
         type_ = Type(type_)
 
+    prefix = type_.description
+
     pattern = regex.compile(type_.regex)
     response = complete_re(
         tokenizer=tokenizer,
         model=model,
-        prompt=prompt,
+        prompt=f"{prefix}\n\n{prompt}",
         pattern=pattern,
         max_new_tokens=max_new_tokens,
         **model_kwargs
