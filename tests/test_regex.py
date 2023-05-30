@@ -29,5 +29,4 @@ def test_other_types():
 
 
 def test_nested(nested_cls):
-    print(nested_cls.regex)
     assert nested_cls.regex == r'\{\"type\":\s*\"orellm\.example_types\.Nested\",\s*\"kwargs\":\s*\{\"simple\":\s*\{\"type\":\s*\"orellm\.example_types\.Simple\",\s*\"kwargs\":\s*\{\"argument\":\s*(\d+|\d*\.\d+(?!\d))\}\}\}\}'

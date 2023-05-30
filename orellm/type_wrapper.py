@@ -24,6 +24,10 @@ class Type(ABC):
             return object.__new__(Class)
         return type_
 
+    @abstractmethod
+    def recursive_children(self):
+        pass
+
 
 REGEX_TYPES = {
     int: r"(\d+)",
@@ -59,6 +63,13 @@ class Class(Type):
             if name != "return"
         }
 
+    def recursive_children(self):
+        children = [self]
+        for type_ in self.kwargs.values():
+            if isinstance(type_, Class):
+                children.extend(type_.recursive_children())
+        return children
+
     @property
     def path(self):
         return f"{self.cls.__module__}.{self.cls.__name__}"
@@ -85,6 +96,10 @@ class Class(Type):
 
     @property
     def description(self):
+        return "\n\n".join(child.self_description for child in self.recursive_children())
+
+    @property
+    def self_description(self):
         return (
                 f"A {self.cls.__name__} is a dictionary with a key 'type' and value '{self.path}' "
                 + f"and a key 'kwargs'\n"
