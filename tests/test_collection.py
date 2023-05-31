@@ -10,7 +10,7 @@ def make_list(cls):
 
 
 def test_list_regex(ls):
-    assert ls.regex == '\\[(\\{\\"type\\":\\s*\\"orellm\\.example_types\\.Simple\\",\\s*\\"kwargs\\":\\s*\\{\\"argument\\":\\s*(\\d+|\\d*\\.\\d+(?!\\d))\\}\\}(,\\s*\\{\\"type\\":\\s*\\"orellm\\.example_types\\.Simple\\",\\s*\\"kwargs\\":\\s*\\{\\"argument\\":\\s*(\\d+|\\d*\\.\\d+(?!\\d))\\}\\})*)?\\]'
+    assert ls.regex == r'\[(\{"type":"orellm\.example_types\.Simple","kwargs":\{"argument":(\d+|\d*\.\d+(?!\d))\}\}(,\{"type":"orellm\.example_types\.Simple","kwargs":\{"argument":(\d+|\d*\.\d+(?!\d))\}\})*)?\]'
 
 
 def test_parse_list():

@@ -39,7 +39,10 @@ class Class(Type):
         return r'\{"type":"' + self.path.replace(".", "\.") + r'","kwargs":' + self.kwargs_regex + r'\}'
 
     def __call__(self, kwargs):
-        return self.cls(**kwargs)
+        return self.cls(**{
+            key: self.kwargs[key]._from_json(value)
+            for key, value in kwargs.items()
+        })
 
     @property
     def self_description(self):

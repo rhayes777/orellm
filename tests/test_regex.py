@@ -7,22 +7,22 @@ def test_get_class_path(cls):
 
 
 def test_kwarg_regex(cls):
-    assert cls.kwarg_regex("argument") == r"\"argument\":\s*(\d+|\d*\.\d+(?!\d))"
+    assert cls.kwarg_regex("argument") == r'"argument":(\d+|\d*\.\d+(?!\d))'
 
 
 def test_kwargs_regex(cls):
-    assert cls.kwargs_regex == r"\{\"argument\":\s*(\d+|\d*\.\d+(?!\d))\}"
+    assert cls.kwargs_regex == r'\{"argument":(\d+|\d*\.\d+(?!\d))\}'
 
 
 def test_simple_regex(cls):
-    assert cls.regex == r'\{\"type\":\s*\"orellm\.example_types\.Simple\",\s*\"kwargs\":\s*\{\"argument\":\s*(\d+|\d*\.\d+(?!\d))\}\}'
+    assert cls.regex == r'\{"type":"orellm\.example_types\.Simple","kwargs":\{"argument":(\d+|\d*\.\d+(?!\d))\}\}'
 
 
 def test_other_types():
     types = Class(Types)
 
-    assert types.regex == r'\{\"type\":\s*\"orellm\.example_types\.Types\",\s*\"kwargs\":\s*\{\"int_argument\":\s*(\d+),\s*\"string_argument\":\s*\"([^"]*)\",\s*\"boolean_argument\":\s*(true|false),\s*\"float_argument\":\s*(\d+|\d*\.\d+(?!\d))\}\}'
+    assert types.regex == r'\{"type":"orellm\.example_types\.Types","kwargs":\{"int_argument":(\d+),"string_argument":"([^"]*)","boolean_argument":(true|false),"float_argument":(\d+|\d*\.\d+(?!\d))\}\}'
 
 
 def test_nested(nested_cls):
-    assert nested_cls.regex == r'\{\"type\":\s*\"orellm\.example_types\.Nested\",\s*\"kwargs\":\s*\{\"simple\":\s*\{\"type\":\s*\"orellm\.example_types\.Simple\",\s*\"kwargs\":\s*\{\"argument\":\s*(\d+|\d*\.\d+(?!\d))\}\}\}\}'
+    assert nested_cls.regex == r'\{"type":"orellm\.example_types\.Nested","kwargs":\{"simple":\{"type":"orellm\.example_types\.Simple","kwargs":\{"argument":(\d+|\d*\.\d+(?!\d))\}\}\}\}'

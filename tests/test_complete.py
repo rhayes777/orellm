@@ -1,5 +1,5 @@
 from orellm import complete_object
-from orellm.example_types import Nested
+from orellm.example_types import Nested, Simple
 import rstr
 
 
@@ -7,7 +7,7 @@ def complete_function(prompt, pattern, tokenizer, model, max_new_tokens, **model
     return rstr.xeger(pattern.pattern)
 
 
-def test_simple():
+def test_nested():
     # noinspection PyTypeChecker
     nested = complete_object(
         prompt="Give a Nested",
@@ -17,3 +17,4 @@ def test_simple():
         complete_function=complete_function,
     )
     assert isinstance(nested, Nested)
+    assert isinstance(nested.simple, Simple)
