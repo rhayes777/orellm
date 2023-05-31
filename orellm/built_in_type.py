@@ -30,7 +30,7 @@ class Str(BuiltInType):
 
     @property
     def regex(self):
-        return r'\"([^"]*)\"'
+        return r'"([^"]*)"'
 
 
 class Bool(BuiltInType):

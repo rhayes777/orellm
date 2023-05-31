@@ -1,17 +1,18 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from orellm import complete_object
-from orellm.example_types import Types
+from orellm.example_types import Simple
 from orellm.collection import List
 
-cls = List(Types)
+cls = Simple
 
-print(cls.regex)
+# print(cls.regex)
+# print(cls.description)
 
-model = AutoModelForCausalLM.from_pretrained("gpt2")
-tokenizer = AutoTokenizer.from_pretrained("gpt2")
+model = AutoModelForCausalLM.from_pretrained("databricks/dolly-v2-12b")
+tokenizer = AutoTokenizer.from_pretrained("databricks/dolly-v2-12b")
 
-prompt = "Give a list of three Types"
+prompt = "Give me a Simple"
 
 output = complete_object(
     tokenizer=tokenizer,
@@ -19,7 +20,6 @@ output = complete_object(
     prompt=prompt,
     type_=cls,
     do_sample=True,
-    max_new_tokens=80
 )
 
 print(output)

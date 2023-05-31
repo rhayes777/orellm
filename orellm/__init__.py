@@ -17,7 +17,10 @@ def complete_object(
     if not isinstance(type_, Type):
         type_ = Type(type_)
 
-    prefix = type_.description
+    # prefix = type_.description
+    prefix = ""
+
+    print(type_.regex)
 
     pattern = regex.compile(type_.regex)
     response = complete_re(
@@ -26,6 +29,8 @@ def complete_object(
         prompt=f"{prefix}\n\n{prompt}",
         pattern=pattern,
         max_new_tokens=max_new_tokens,
+        stop_after_match=False,
         **model_kwargs
     )
+    print(response)
     return type_.from_json(response)

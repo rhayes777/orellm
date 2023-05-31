@@ -27,7 +27,7 @@ class Class(Type):
     def kwarg_regex(self, kwarg):
         type_regex = self.kwargs[kwarg].regex
 
-        return rf"\"{kwarg}\":\s*{type_regex}"
+        return rf'"{kwarg}":\s*{type_regex}'
 
     @property
     def kwargs_regex(self):
@@ -36,7 +36,7 @@ class Class(Type):
 
     @property
     def regex(self):
-        return r"\{\"type\":\s*\"" + self.path.replace(".", "\.") + r"\",\s*\"kwargs\":\s*" + self.kwargs_regex + r"\}"
+        return r'\{"type":\s*"' + self.path.replace(".", "\.") + r'",\s*"kwargs":\s*' + self.kwargs_regex + r'\}'
 
     def __call__(self, kwargs):
         return self.cls(**kwargs)
