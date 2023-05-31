@@ -9,20 +9,19 @@ from orellm.type_ import Type
 
 def complete_object(
         prompt: str, tokenizer: PreTrainedTokenizer,
-        type_: Union[Type, type],
+        return_type: Union[Type, type],
         model: PreTrainedModel,
-        max_new_tokens: int = 80,
+        max_new_tokens: int = 800,
         **model_kwargs,
 ):
-    if not isinstance(type_, Type):
-        type_ = Type(type_)
+    if not isinstance(return_type, Type):
+        return_type = Type(return_type)
 
-    # prefix = type_.description
-    prefix = ""
+    prefix = return_type.description
 
-    print(type_.regex)
+    print(return_type.regex)
 
-    pattern = regex.compile(type_.regex)
+    pattern = regex.compile(return_type.regex)
     response = complete_re(
         tokenizer=tokenizer,
         model=model,
@@ -33,4 +32,4 @@ def complete_object(
         **model_kwargs
     )
     print(response)
-    return type_.from_json(response)
+    return return_type.from_json(response)

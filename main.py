@@ -4,21 +4,18 @@ from orellm import complete_object
 from orellm.example_types import Simple
 from orellm.collection import List
 
-cls = Simple
-
-# print(cls.regex)
-# print(cls.description)
+cls = List(Simple)
 
 model = AutoModelForCausalLM.from_pretrained("gpt2")
 tokenizer = AutoTokenizer.from_pretrained("gpt2")
 
-prompt = "Give me a Simple"
+prompt = "Give me three sequential Simples"
 
 output = complete_object(
     tokenizer=tokenizer,
     model=model,
     prompt=prompt,
-    type_=cls,
+    return_type=cls,
 )
 
 print(output)
