@@ -2,21 +2,24 @@ import json
 
 from .built_in_type import BuiltInType
 from .type_ import Type
+import typing
 
 
 class Collection(BuiltInType):
-    def __init__(self, child_type, type_):
+    type: typing.Collection
+
+    def __init__(self, child_type):
         if not isinstance(child_type, Type):
             child_type = Type(child_type)
         self.child_type = child_type
-        super().__init__(type_)
+        super().__init__(self.type)
 
     def __new__(cls, *args, **kwargs):
         return object.__new__(cls)
 
     @property
     def regex(self):
-        return f"\[({self.child_type.regex}(,\s*{self.child_type.regex})+)\]"
+        return f"\[({self.child_type.regex}(,\s*{self.child_type.regex})*)?\]"
 
     def recursive_children(self):
         return [self, *self.child_type.recursive_children()]
@@ -34,5 +37,4 @@ class Collection(BuiltInType):
 
 
 class List(Collection):
-    def __init__(self, child_type):
-        super().__init__(child_type, list)
+    type = list

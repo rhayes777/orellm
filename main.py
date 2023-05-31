@@ -9,7 +9,7 @@ cls = List(Simple)
 model = AutoModelForCausalLM.from_pretrained("gpt2")
 tokenizer = AutoTokenizer.from_pretrained("gpt2")
 
-prompt = "Give me three sequential Simples"
+prompt = "Give me one Simple"
 
 output = complete_object(
     tokenizer=tokenizer,

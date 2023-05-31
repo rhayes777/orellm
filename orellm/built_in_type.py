@@ -61,11 +61,3 @@ class Int(BuiltInType):
     @property
     def regex(self):
         return r"(\d+)"
-
-
-REGEX_TYPES = {
-    int: Int,
-    str: Str,
-    bool: Bool,
-    float: Float,
-}
