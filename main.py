@@ -1,15 +1,15 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from orellm import complete_object
-from orellm.example_types import Simple
+from orellm.example_types import Nested
 from orellm.collection import List
 
-cls = List(Simple)
+cls = List(Nested)
 
 model = AutoModelForCausalLM.from_pretrained("gpt2")
 tokenizer = AutoTokenizer.from_pretrained("gpt2")
 
-prompt = "Give me one Simple"
+prompt = "Give a Nested"
 
 output = complete_object(
     tokenizer=tokenizer,
