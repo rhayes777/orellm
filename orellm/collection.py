@@ -19,7 +19,7 @@ class Collection(BuiltInType):
 
     @property
     def regex(self):
-        return f"\[({self.child_type.regex}(,\s*{self.child_type.regex})*)?\]"
+        return f"\[({self.child_type.regex}(,{self.child_type.regex})*)?\]"
 
     def recursive_children(self):
         return [self, *self.child_type.recursive_children()]

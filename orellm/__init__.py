@@ -12,6 +12,7 @@ def complete_object(
         return_type: Union[Type, type],
         model: PreTrainedModel,
         max_new_tokens: int = 800,
+        complete_function=complete_re,
         **model_kwargs,
 ):
     if not isinstance(return_type, Type):
@@ -19,10 +20,8 @@ def complete_object(
 
     prefix = return_type.description
 
-    print(return_type.regex)
-
     pattern = regex.compile(return_type.regex)
-    response = complete_re(
+    response = complete_function(
         tokenizer=tokenizer,
         model=model,
         prompt=f"{prefix}\n\n{prompt}",
@@ -31,5 +30,4 @@ def complete_object(
         do_sample=True,
         **model_kwargs
     )
-    print(response)
     return return_type.from_json(response)
