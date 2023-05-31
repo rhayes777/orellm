@@ -13,6 +13,7 @@ def complete_object(
         model: PreTrainedModel,
         max_new_tokens: int = 800,
         complete_function: Callable = complete_re,
+        generate_prompt=False,
         **model_kwargs,
 ):
     """
@@ -33,6 +34,8 @@ def complete_object(
         A function that produces LLM output constrained by a regex pattern (e.g. complete_re from ReLLM)
     model_kwargs
         Additional arguments to pass to the model
+    generate_prompt
+        Whether to generate a prompt from the return type
 
     Returns
     -------
@@ -41,7 +44,7 @@ def complete_object(
     if not isinstance(return_type, Type):
         return_type = Type(return_type)
 
-    prefix = return_type.description
+    prefix = return_type.description if generate_prompt else ""
 
     pattern = regex.compile(return_type.regex)
     response = complete_function(
