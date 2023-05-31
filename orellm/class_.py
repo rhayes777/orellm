@@ -11,7 +11,7 @@ class Class(Type):
         }
 
     def _from_json(self, response):
-        return self(["kwargs"])
+        return self(response["kwargs"])
 
     def recursive_children(self):
         children = [self]

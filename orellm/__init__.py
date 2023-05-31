@@ -11,7 +11,7 @@ def complete_object(
         prompt: str, tokenizer: PreTrainedTokenizer,
         type_: Union[Type, type],
         model: PreTrainedModel,
-        max_new_tokens: int = 3,
+        max_new_tokens: int = 80,
         **model_kwargs,
 ):
     if not isinstance(type_, Type):
@@ -29,7 +29,7 @@ def complete_object(
         prompt=f"{prefix}\n\n{prompt}",
         pattern=pattern,
         max_new_tokens=max_new_tokens,
-        stop_after_match=False,
+        do_sample=True,
         **model_kwargs
     )
     print(response)

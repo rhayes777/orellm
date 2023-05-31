@@ -14,7 +14,7 @@ class Type(ABC):
         pass
 
     def from_json(self, response):
-        return self.from_json(json.loads(response))
+        return self._from_json(json.loads(response))
 
     @abstractmethod
     def _from_json(self, response):

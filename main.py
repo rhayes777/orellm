@@ -9,8 +9,8 @@ cls = Simple
 # print(cls.regex)
 # print(cls.description)
 
-model = AutoModelForCausalLM.from_pretrained("databricks/dolly-v2-12b")
-tokenizer = AutoTokenizer.from_pretrained("databricks/dolly-v2-12b")
+model = AutoModelForCausalLM.from_pretrained("gpt2")
+tokenizer = AutoTokenizer.from_pretrained("gpt2")
 
 prompt = "Give me a Simple"
 
@@ -19,7 +19,6 @@ output = complete_object(
     model=model,
     prompt=prompt,
     type_=cls,
-    do_sample=True,
 )
 
 print(output)
