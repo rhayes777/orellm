@@ -10,9 +10,6 @@ class Class(Type):
             if name != "return"
         }
 
-    def _from_json(self, response):
-        return self(response["kwargs"])
-
     def recursive_children(self):
         children = [self]
         for type_ in self.kwargs.values():
@@ -38,9 +35,10 @@ class Class(Type):
     def regex(self):
         return r'\{"type":"' + self.path.replace(".", "\.") + r'","kwargs":' + self.kwargs_regex + r'\}'
 
-    def __call__(self, kwargs):
+    def __call__(self, response):
+        kwargs = response["kwargs"]
         return self.cls(**{
-            key: self.kwargs[key]._from_json(value)
+            key: self.kwargs[key](value)
             for key, value in kwargs.items()
         })
 

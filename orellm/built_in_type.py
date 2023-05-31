@@ -3,17 +3,12 @@ from .type_ import Type
 
 
 class BuiltInType(Type, ABC):
-    def from_json(self, response):
-        return self(response)
 
     def __init__(self, type_):
         self.type_ = type_
 
     def __call__(self, arg):
         return self.type_(arg)
-
-    def _from_json(self, response):
-        return self.from_json(response)
 
     def recursive_children(self):
         return []

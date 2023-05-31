@@ -1,5 +1,3 @@
-import json
-
 from .built_in_type import BuiltInType
 from .type_ import Type
 import typing
@@ -32,8 +30,8 @@ class Collection(BuiltInType):
     def self_description(self):
         return f"a {self.type_.__name__} of {self.child_type.simple_description}"
 
-    def from_json(self, response):
-        return self(map(self.child_type._from_json, json.loads(response)))
+    def __call__(self, response):
+        return super().__call__(map(self.child_type, response))
 
 
 class List(Collection):
