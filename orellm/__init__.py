@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, Callable
 
 from regex import regex
 from rellm import complete_re
@@ -12,9 +12,32 @@ def complete_object(
         return_type: Union[Type, type],
         model: PreTrainedModel,
         max_new_tokens: int = 800,
-        complete_function=complete_re,
+        complete_function: Callable = complete_re,
         **model_kwargs,
 ):
+    """
+    Create an instance of a class from a prompt
+
+    Parameters
+    ----------
+    prompt
+        A natural language prompt to give to the model
+    tokenizer
+    return_type
+        The type that should be returned
+    model
+        A Large Language Model
+    max_new_tokens
+        The maximum number of tokens to generate
+    complete_function
+        A function that produces LLM output constrained by a regex pattern (e.g. complete_re from ReLLM)
+    model_kwargs
+        Additional arguments to pass to the model
+
+    Returns
+    -------
+    An instance of the class specified by return_type
+    """
     if not isinstance(return_type, Type):
         return_type = Type(return_type)
 
